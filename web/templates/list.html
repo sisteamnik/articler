@@ -1,0 +1,12 @@
+{{template "_header.html" .}}
+
+{{range .}}
+<i>{{.Published}}</i>
+<h4>{{.Title|raw}}</h4>
+{{str .Body | raw}}
+<br>
+<a href="{{.Source}}">{{.Source}}</a>
+<hr>
+{{end}}
+
+{{template "_footer.html" .}}

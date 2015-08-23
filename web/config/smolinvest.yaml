@@ -1,0 +1,12 @@
+host: "smolinvest.com"
+name: smolinvest
+
+articleuriregex: "^/news/detail\\.php\\?ID=[\\d]*$"
+feedselector: ".news-list .news-item .title-news a"
+feeduri: "/news/"
+
+titleselector: .iblock-head
+
+bodyselector: .news-detail p
+
+dateselector: .news-date-time

@@ -1,0 +1,11 @@
+host: "www.moyareklama.ru"
+name: moyareklama
+
+articleuriregex: "^/%D0%A1%D0%BC%D0%BE%D0%BB%D0%B5%D0%BD%D1%81%D0%BA/%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%B8/[\\d]+$"
+
+titleselector: .one_news_title
+
+bodyselector: .one_news_info
+
+dateselector: .one_news_dop_info
+dateregex: "([\\d]{2}\\.[\\d]{2}\\.[\\d]{2} [\\d]{2}:[\\d]{2})"

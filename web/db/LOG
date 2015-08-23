@@ -1,0 +1,13 @@
+=============== Jun 28, 2015 (MSK) ===============
+00:44:57.117628 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+00:44:57.151175 db@open opening
+00:44:57.151325 journal@recovery F·1
+00:44:57.152862 journal@recovery recovering @3
+00:44:57.270495 memdb@flush created L0@5 N·548 S·616KiB "art..tml,v1334":"htt..71/,v1827"
+00:44:57.284383 db@janitor F·4 G·0
+00:44:57.284423 db@open done T·133.215586ms
+00:44:59.438913 table@compaction L0·2 -> L1·0 S·1MiB Q·1877
+00:44:59.697252 table@build created L1@8 N·1875 S·1MiB "art..tml,v122":"htt..71/,v1827"
+00:44:59.741970 table@compaction committed F-1 S-4KiB Ke·0 D·0 T·302.938136ms
+00:44:59.742309 table@remove removed @5
+00:44:59.742614 table@remove removed @2

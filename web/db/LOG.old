@@ -1,0 +1,8 @@
+=============== Jun 25, 2015 (MSK) ===============
+21:41:24.207729 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+21:41:24.216377 db@open opening
+21:41:24.216503 journal@recovery F·1
+21:41:24.217714 journal@recovery recovering @1
+21:41:24.478285 memdb@flush created L0@2 N·1327 S·1MiB "art..tml,v122":"htt..65/,v9"
+21:41:24.536927 db@janitor F·3 G·0
+21:41:24.536991 db@open done T·320.577886ms

@@ -1,0 +1,10 @@
+host: "rabochy-put.ru"
+name: rabochy_put
+
+articleuriregex: "^/[\\S]*/[\\d]*-[\\S]*\\.html$"
+
+titleselector: h1
+
+bodyselector: .g-news
+
+dateselector: .date

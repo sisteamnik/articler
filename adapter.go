@@ -70,7 +70,7 @@ func (s *DefaultParser) Parse(bts []byte) (*Article, error) {
 
 	a.Title = art.Title
 
-	a.Body = []byte(art.CleanedText)
+	a.Text = art.CleanedText
 
 	/*doc, err := readability.NewDocument(string(bts))
 	if err != nil {

@@ -1,7 +1,6 @@
 package adapters
 
 import (
-	"log"
 	"testing"
 )
 
@@ -10,12 +9,9 @@ func TestGetDate(t *testing.T) {
 	/*var dates = map[string]time.Time{
 		"21 ИЮНЬ 2015 09:46": time.Time{},
 	}*/
-	date, err := rp.getDate("21 ИЮНЬ 2015 09:46")
+	_, err := rp.getDate("21 ИЮНЬ 2015 09:46")
 	if err != nil {
 		t.Error(err)
-	}
-	if DEBUG {
-		log.Println(date)
 	}
 
 }
@@ -32,11 +28,9 @@ func TestGetDateUpdated(t *testing.T) {
 				
                   
 		</span>`
-	date, err := rp.getDate(html)
+	_, err := rp.getDate(html)
 	if err != nil {
 		t.Error(err)
 	}
-	if DEBUG {
-		log.Println(date)
-	}
+
 }

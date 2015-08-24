@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/sisteamnik/articler"
+	prss "github.com/sisteamnik/articler/rss"
 	"github.com/ungerik/go-dry"
 	"log"
 	"net/url"
@@ -27,11 +28,13 @@ func NewReadovkaParser() *ReadovkaParser {
 }
 
 func (s *ReadovkaParser) Name() string {
-	return "readovka"
+	return "readovka.ru"
 }
 
 func (s *ReadovkaParser) IsArticle(u string) bool {
-	//todo log error
+	//todo
+	return true
+
 	matched, _ := regexp.MatchString("^/[a-z-_0-9]*/[a-z-_0-9]*$", u)
 	return matched
 }
@@ -41,7 +44,7 @@ func (s *ReadovkaParser) LastArticles() ([]*url.URL, error) {
 	if err != nil {
 		return nil, err
 	}
-	items, err := DecodeRss(rss)
+	items, err := prss.DecodeRss(rss)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +58,8 @@ func (s *ReadovkaParser) LastArticles() ([]*url.URL, error) {
 	return res, nil
 }
 
-func (p *ReadovkaParser) Parse(bts []byte) (*articler.Article, error) {
+func (p *ReadovkaParser) Parse(u string, bts []byte) (*articler.Article, error) {
+	fmt.Print("here\n")
 	a, _ := p.DefaultParser.Parse(bts)
 
 	r := bytes.NewReader(bts)
@@ -66,8 +70,8 @@ func (p *ReadovkaParser) Parse(bts []byte) (*articler.Article, error) {
 
 	sBody := doc.Find(".itemFullText").Text()
 
-	a.Body = []byte(strings.TrimSpace(sBody))
-	a.Description = doc.Find(".itemIntroText").Text()
+	a.Text = strings.TrimSpace(sBody)
+	//a.Description = doc.Find(".itemIntroText").Text()
 
 	t, err := p.getDate(doc.Find("#main-content .item-date").Text())
 	if err != nil {
@@ -102,4 +106,8 @@ func (p *ReadovkaParser) getDate(in string) (time.Time, error) {
 	re := regexp.MustCompile("[0-9]{1,2} [0-9]{1,2} [0-9]{4} [0-9]{1,2}:[0-9]{1,2}")
 	res := fmt.Sprintf("%s", re.FindString(in))
 	return time.Parse("02 01 2006 15:04", res)
+}
+
+func init() {
+	articler.RegisterArticleParser("readovka.ru", NewReadovkaParser())
 }

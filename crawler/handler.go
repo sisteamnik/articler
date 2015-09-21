@@ -89,6 +89,9 @@ func (cr *Crawler) Handler(ctx *fetchbot.Context, res *http.Response, e error) {
 }
 
 func (cr *Crawler) NeedVisit(u *url.URL) bool {
+	if strings.Contains(u.String(), "login") {
+		return false
+	}
 	if _, ok := cr.dup[u.String()]; ok {
 		return false
 	}

@@ -129,6 +129,9 @@ func ExtractLinks(url *url.URL, in []byte) (res []*url.URL) {
 		val, _ := s.Attr("href")
 		// Resolve address
 		u, err := url.Parse(val)
+		if err != nil {
+			return
+		}
 		clearUrl(u)
 		if err != nil {
 			fmt.Printf("error: resolve URL %s - %s\n", val, err)

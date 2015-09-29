@@ -46,3 +46,7 @@ func (a *Articler) ParseArticleFromUrl(URL string) (*Article, error) {
 
 	return ParseArticle(URL, bts)
 }
+
+func (a *Articler) ParseArticle(urlContext string, data []byte) (*Article, error) {
+	return ParseArticle(urlContext, data)
+}

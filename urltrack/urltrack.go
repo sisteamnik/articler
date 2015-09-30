@@ -8,16 +8,23 @@ import (
 )
 
 type Service struct {
-	rules  []Rule
-	Client *http.Client
+	rules         []*Rule
+	Client        *http.Client
+	CheckInterval time.Duration
 
 	jobs chan Rule
 }
 
 func New(rules []Rule) (*Service, error) {
 	s := new(Service)
-	s.rules = rules
-	s.jobs = make(chan Rule)
+	rulesPoint := []*Rule{}
+	for _, v := range rules {
+		rulesPoint = append(rulesPoint, s.NewRule(v))
+	}
+	s.rules = rulesPoint
+	s.CheckInterval = 5 * time.Second
+
+	s.jobs = make(chan Rule, 10)
 	s.Client = http.DefaultClient
 
 	return s, nil
@@ -33,33 +40,23 @@ func NewWithCommonInterval(urls []string, interval time.Duration,
 }
 
 func (s *Service) Run() {
-	go func() {
-		for {
-			select {
-			case rule := <-s.jobs:
-				bts, e := s.Get(rule.Url)
-				if e != nil {
-					color.Red("Error %s with url %s", e, rule.Url)
-				} else {
-					rule.CallBack(rule.Url, bts)
-					go func(jobs chan Rule, rule Rule) {
-						time.Sleep(rule.CheckInterval)
-						jobs <- rule
-					}(s.jobs, rule)
-				}
-			}
-		}
-	}()
-	for _, v := range s.rules {
-		s.jobs <- v
-	}
 	for {
-
+		for _, v := range s.rules {
+			v.Do()
+		}
+		time.Sleep(s.CheckInterval)
 	}
 }
 
+func (s *Service) Send(rule Rule) {
+	color.Cyan("Send %s", rule)
+	s.jobs <- rule
+}
+
 func (s *Service) Get(url string) ([]byte, error) {
+	color.Cyan("[get] %s", url)
 	resp, e := s.Client.Get(url)
+	color.Cyan("[here] %s", url)
 	if e != nil {
 		return nil, e
 	}
@@ -68,5 +65,6 @@ func (s *Service) Get(url string) ([]byte, error) {
 	if e != nil {
 		return nil, e
 	}
+	color.Cyan("[getted] %s", url)
 	return bts, e
 }

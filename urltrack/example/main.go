@@ -6,8 +6,8 @@ import (
 	"time"
 )
 
-func cb(in []byte) {
-	fmt.Printf("%s", in)
+func cb(u string, _ []byte) {
+	fmt.Printf("%s\n", u)
 }
 
 func main() {

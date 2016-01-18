@@ -13,6 +13,8 @@ type Article struct {
 	Published time.Time
 	Source    string
 
+	Parsed string
+
 	/*	Images        []string
 		Videos        []string
 		Links         []string

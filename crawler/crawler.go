@@ -147,7 +147,7 @@ func ExtractLinks(url *url.URL, in []byte) (res []*url.URL) {
 }
 
 func clearUrl(u *url.URL) {
-	u.RawQuery = ""
+	//u.RawQuery = ""
 	u.Fragment = ""
 }
 

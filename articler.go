@@ -1,7 +1,9 @@
 package articler
 
 import (
+	"errors"
 	"io/ioutil"
+	"strings"
 )
 
 type Articler struct {
@@ -38,6 +40,11 @@ func (a *Articler) ParseArticleFromUrl(URL string) (*Article, error) {
 		return nil, e
 	}
 	defer resp.Body.Close()
+
+	contentType := resp.Header.Get("Content-Type")
+	if !strings.Contains(contentType, "text/html") {
+		return nil, errors.New("Content-type not text/html")
+	}
 
 	bts, e := ioutil.ReadAll(resp.Body)
 	if e != nil {

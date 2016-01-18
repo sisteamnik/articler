@@ -4,6 +4,7 @@ import (
 	"github.com/fatih/color"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -12,17 +13,20 @@ type Service struct {
 	Client        *http.Client
 	CheckInterval time.Duration
 
+	cb CallbackFunc
+
 	jobs chan Rule
 }
 
-func New(rules []Rule) (*Service, error) {
+func New(rules []Rule, interval time.Duration, cb CallbackFunc) (*Service, error) {
 	s := new(Service)
 	rulesPoint := []*Rule{}
 	for _, v := range rules {
 		rulesPoint = append(rulesPoint, s.NewRule(v))
 	}
+	s.cb = cb
 	s.rules = rulesPoint
-	s.CheckInterval = 5 * time.Second
+	s.CheckInterval = interval
 
 	s.jobs = make(chan Rule, 10)
 	s.Client = http.DefaultClient
@@ -34,9 +38,17 @@ func NewWithCommonInterval(urls []string, interval time.Duration,
 	cb CallbackFunc) (*Service, error) {
 	rules := []Rule{}
 	for _, v := range urls {
+		if strings.TrimSpace(v) == "" {
+			continue
+		}
 		rules = append(rules, Rule{Url: v, CheckInterval: interval, CallBack: cb})
 	}
-	return New(rules)
+	return New(rules, interval, cb)
+}
+
+func (s *Service) AddUrl(u string) error {
+	s.rules = append(s.rules, &Rule{Url: u, CheckInterval: s.CheckInterval, CallBack: s.cb})
+	return nil
 }
 
 func (s *Service) Run() {

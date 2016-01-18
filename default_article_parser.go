@@ -49,7 +49,8 @@ func (p *DefaultArticleParser) Parse(rawurl string, in []byte) (*Article, error)
 	}
 	g := goose.New()
 	article := g.ExtractFromRawHtml(rawurl, string(in))
-	return &Article{Title: article.Title, Text: article.CleanedText}, nil
+	return &Article{Title: article.Title, Text: article.CleanedText,
+		Parsed: "default"}, nil
 }
 
 func (p *DefaultArticleParser) parse(u *url.URL, rule *Rule, doc *goquery.Document) (*Article, error) {
@@ -67,6 +68,7 @@ func (p *DefaultArticleParser) parse(u *url.URL, rule *Rule, doc *goquery.Docume
 		Title:     title,
 		Published: publ,
 		Text:      text,
+		Parsed:    "default",
 	}, nil
 }
 
